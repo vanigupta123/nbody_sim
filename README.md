@@ -8,8 +8,8 @@ this project has two components:
 
 the n-body simulation generates a simulation of n particles and visualizes each particles' motion relative to the other particles, using the universal gravitation equation. 
 by default, the particles are instantiated with zero velocity, so their motion is not centripetal and won't look like an orbit around any center of gravity or otherwise. 
-the particles will simply move in a striaght line towards each other until they collide. when running this colab, you can optionally enable centripetal motion. in the background, 
-this will simply instantiate the velocity vectors with a nonzero tangential velocity.
+the particles will simply move in a straight line towards each other until they collide. when running this colab, you can optionally enable centripetal motion. in the background, 
+this will simply instantiate the velocity vectors with a nonzero tangential velocity. it uses cuda multithreading and global shared memory. i *partly* followed [this](https://developer.nvidia.com/gpugems/gpugems3/part-v-physics-simulation/chapter-31-fast-n-body-simulation-cuda) nvidia tutorial to do so. 
 
 the rag prompt generator can interact with the inputs and outputs of the simulation and use context on the topic to then modify future simulation inputs and
 generate interesting follow-up questions and prompts for subsequent simulation runs. more to be added here as i complete writing this lol
