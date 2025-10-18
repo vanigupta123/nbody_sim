@@ -13,3 +13,10 @@ this will simply instantiate the velocity vectors with a nonzero tangential velo
 
 the rag prompt generator can interact with the inputs and outputs of the simulation and use context on the topic to then modify future simulation inputs and
 generate interesting follow-up questions and prompts for subsequent simulation runs. more to be added here as i complete writing this lol
+
+## how to run n-body sim colab
+- you should be able to open the colab and compile everything
+- the last cell will prompt you to input the number of particles, timesteps, and dt. here's what i input, as an example:
+  <img width="733" height="35" alt="Screenshot 2025-10-17 at 10 26 24 PM" src="https://github.com/user-attachments/assets/39627dbd-8613-40f2-8d17-bff26157347c" />
+- find "Files" on the left side menu bar. you can find a csv for each timestep in the `output/` folder and a visualization of the particles in `nbody_sim.mp4`
+- enjoy! and look forward to the rag description!
