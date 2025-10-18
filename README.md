@@ -1,4 +1,4 @@
-# nbody_sim
+# n-body simulation and prompt generator
 
 ran the n-body simulation in colab using T4 GPU due to m2 macbook incompatibility with cuda
 
