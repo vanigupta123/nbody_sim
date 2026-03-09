@@ -8,7 +8,7 @@ the particles will simply move in a straight line towards each other until they 
 this will simply instantiate the velocity vectors with a nonzero tangential velocity. it uses cuda multithreading and global shared memory. i *partly* followed [this](https://developer.nvidia.com/gpugems/gpugems3/part-v-physics-simulation/chapter-31-fast-n-body-simulation-cuda) nvidia tutorial to do so. 
 
 ## the architecture, in greater depth
-what kernel optimization techniques you used, why shared memory tiling matters for this problem, what the performance numbers look like (if you have them — even rough GFLOPS or speedup vs CPU baseline would be huge). why verlet. Include a short architecture section explaining the parallelization strategy.
+what kernel optimization techniques you used, why shared memory tiling matters for this problem, what the performance numbers look like (even rough GFLOPS or speedup vs CPU baseline). why verlet. + short architecture section explaining the parallelization strategy.
 
 ## how to run n-body sim colab
 - you should be able to open the colab and compile everything
