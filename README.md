@@ -8,9 +8,41 @@ the particles will simply move in a straight line towards each other until they 
 this will simply instantiate the velocity vectors with a nonzero tangential velocity. it uses cuda multithreading and global shared memory. i *partly* followed [this](https://developer.nvidia.com/gpugems/gpugems3/part-v-physics-simulation/chapter-31-fast-n-body-simulation-cuda) nvidia tutorial to do so. 
 
 ## the architecture, in greater depth
-what kernel optimization techniques you used, why shared memory tiling matters for this problem, what the performance numbers look like (even rough GFLOPS or speedup vs CPU baseline). why verlet. + short architecture section explaining the parallelization strategy.
+in this problem, every particle interacts with every other particle, making it an O(N²) problem. the parallelization strategy assigns one thread per particle. each thread is responsible for computing the total gravitational force acting on its particle by iterating over all other particles. to avoid requiring every thread independently reading from global memory, the kernel uses shared memory tiling, which is where threads in a block cooperatively load a tile of particle positions into shared memory, and compute forces against that tile. this means each position is read from global memory once per tile rather than once per thread, which is the key optimization.
 
-## how to run n-body sim colab
+verlet integration is used to update positions and velocities at each timestep. compared to a naive Euler integrator, Verlet conserves energy better over long simulations, which matters here because without it, the particles would either gain or lose energy artificially over 10K timesteps, and the simulation would look physically wrong.
+
+performance on NVIDIA A10:
+ N            time             perf
+1024     0.036 ms/step    590.2 GFLOP/s
+4096     0.141 ms/step    2378.0 GFLOP/s
+8192     0.273 ms/step    4909.8 GFLOP/s
+16384    0.554 ms/step    9682.1 GFLOP/s
+
+performance scales roughly linearly with N² as expected, and GFLOP/s increases with N because larger problem sizes better saturate GPU parallelism. a modern CPU running the same naive O(N²) loop typically achieves 50–100 GFLOP/s, putting the GPU roughly 20–100x faster depending on problem size!
+
+## how to run n-body sim locally
+`git clone https://github.com/vanigupta123/nbody_sim`
+to run the kernels and generate the position data, for 100 particles, 1000 timesteps, dt=0.05, and centripetal motion enabled:
+```
+nvcc -o nbody src/main.cu src/nbody.cu -O2
+./nbody 100 1000 0.05 y
+```
+
+to see the animations and visualizations:
+```
+pip install -r requirements.txt
+python scripts/visualization.py
+```
+then find the visualizations in the `output` folder!
+
+to run the kernels and see the benchmarking/perf metrics, for N=8192 in this example:
+```
+nvcc -o benchmark src/main.cu src/nbody.cu -O2
+./benchmark 8192
+```
+
+## how to run n-body sim in colab
 - you should be able to open the colab and compile everything
 - the last cell will prompt you to input the number of particles, timesteps, dt, and if the motion is centripetal or not. here's what i input, as an example:
   <img width="1126" height="35" alt="Screenshot 2025-10-26 at 1 25 34 AM" src="https://github.com/user-attachments/assets/fad681cb-a124-4c3f-9b22-65fe7fa83250" />
