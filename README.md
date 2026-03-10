@@ -1,7 +1,5 @@
 # n-body simulation
 
-ran the n-body simulation in colab using T4 GPU due to m2 macbook incompatibility with cuda
-
 the n-body simulation generates a simulation of n particles and visualizes each particles' motion relative to the other particles, using the universal gravitation equation. 
 by default, the particles are instantiated with zero velocity, so their motion is not centripetal and won't look like an orbit around any center of gravity or otherwise. 
 the particles will simply move in a straight line towards each other until they collide. when running this colab, you can optionally enable centripetal motion. in the background, 
@@ -22,7 +20,6 @@ performance on NVIDIA A10:
 performance scales roughly linearly with N² as expected, and GFLOP/s increases with N because larger problem sizes better saturate GPU parallelism. a modern CPU running the same naive O(N²) loop typically achieves 50–100 GFLOP/s, putting the GPU roughly 20–100x faster depending on problem size!
 
 ## how to run n-body sim locally
-`git clone https://github.com/vanigupta123/nbody_sim`
 to run the kernels and generate the position data, for 100 particles, 1000 timesteps, dt=0.05, and centripetal motion enabled:
 ```
 nvcc -o nbody src/main.cu src/nbody.cu -O2
