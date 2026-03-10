@@ -6,16 +6,16 @@ from mpl_toolkits.mplot3d import Axes3D
 import os
 import glob
 import numpy as np
-import argparse  # [ADDED] replaced hardcoded /content/ paths with CLI args
+import argparse
 
-# [ADDED]
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--input_dir", default="output", help="directory containing output_*.csv files")
 parser.add_argument("--out",       default=".",      help="directory to write mp4/gif files")
 args = parser.parse_args()
 
-files = sorted(glob.glob(os.path.join(args.input_dir, "output_*.csv")),  # [ADDED] args.input_dir
-               key=lambda x: int(x.split('_')[-1].split('.')[0]))        # [ADDED] -1 index to handle full path
+files = sorted(glob.glob(os.path.join(args.input_dir, "output_*.csv")),
+               key=lambda x: int(x.split('_')[-1].split('.')[0]))
 frames = [pd.read_csv(file) for file in files]
 fig = plt.figure(figsize=(6,6))
 ax = fig.add_subplot(111, projection='3d')
@@ -77,18 +77,18 @@ def updatePretty(frame_idx):
 
 animation = FuncAnimation(fig, update, frames=len(frames), init_func=init,
                           interval=50, blit=False, repeat=False)
-animation.save(os.path.join(args.out, 'nbody_sim.mp4'), writer='ffmpeg', fps=30)  # [ADDED] args.out
+animation.save(os.path.join(args.out, 'nbody_sim.mp4'), writer='ffmpeg', fps=30)
 print("saved animation as nbody_sim.mp4")
 
 animation = FuncAnimation(fig2, updatePretty, frames=len(frames), init_func=initPretty,
                           interval=50, blit=False, repeat=False)
-animation.save(os.path.join(args.out, 'nbody_pretty_sim.mp4'), writer='ffmpeg', fps=30)  # [ADDED] args.out
+animation.save(os.path.join(args.out, 'nbody_pretty_sim.mp4'), writer='ffmpeg', fps=30)
 print("saved animation as nbody_pretty_sim.mp4")
 
-clip = VideoFileClip(os.path.join(args.out, "nbody_sim.mp4"))  # [ADDED] args.out
+clip = VideoFileClip(os.path.join(args.out, "nbody_sim.mp4"))
 clip.write_gif(os.path.join(args.out, "nbody_sim.gif"), fps=clip.fps)
 print("saved gif as nbody_sim.gif")
 
-clip = VideoFileClip(os.path.join(args.out, "nbody_pretty_sim.mp4"))  # [ADDED] args.out
+clip = VideoFileClip(os.path.join(args.out, "nbody_pretty_sim.mp4"))
 clip.write_gif(os.path.join(args.out, "nbody_pretty_sim.gif"), fps=clip.fps)
 print("saved gif as nbody_pretty_sim.gif")
