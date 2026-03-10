@@ -11,11 +11,12 @@ in this problem, every particle interacts with every other particle, making it a
 verlet integration is used to update positions and velocities at each timestep. compared to a naive Euler integrator, Verlet conserves energy better over long simulations, which matters here because without it, the particles would either gain or lose energy artificially over 10K timesteps, and the simulation would look physically wrong.
 
 performance on NVIDIA A10:
- N            time             perf
-1024     0.036 ms/step    590.2 GFLOP/s
-4096     0.141 ms/step    2378.0 GFLOP/s
-8192     0.273 ms/step    4909.8 GFLOP/s
-16384    0.554 ms/step    9682.1 GFLOP/s
+| N      | time/step    | GFLOP/s  |
+|--------|--------------|----------|
+| 1,024  | 0.036 ms     | 590.2    |
+| 4,096  | 0.141 ms     | 2,378.0  |
+| 8,192  | 0.273 ms     | 4,909.8  |
+| 16,384 | 0.554 ms     | 9,682.1  |
 
 performance scales roughly linearly with N² as expected, and GFLOP/s increases with N because larger problem sizes better saturate GPU parallelism. a modern CPU running the same naive O(N²) loop typically achieves 50–100 GFLOP/s, putting the GPU roughly 20–100x faster depending on problem size!
 
