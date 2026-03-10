@@ -18,6 +18,8 @@ performance on NVIDIA A10:
 | 8,192  | 0.273 ms     | 4,909.8  |
 | 16,384 | 0.554 ms     | 9,682.1  |
 
+this implies approx 31% of theoretical peak on the A10.
+
 performance scales roughly linearly with N² as expected, and GFLOP/s increases with N because larger problem sizes better saturate GPU parallelism. a modern CPU running the same naive O(N²) loop typically achieves 50–100 GFLOP/s, putting the GPU roughly 20–100x faster depending on problem size!
 
 ## how to run n-body sim locally
